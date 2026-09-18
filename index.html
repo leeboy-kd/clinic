@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,10 +87,10 @@ HTML
 <div id="map"></div>
 
 <script>
-    // 경대간호학원 기준 중심 좌표 및 모바일 최적화 줌 레벨(11.5)
-    var initialLat = 35.8980229607434;
-    var initialLng = 128.61481967896094;
-    var initialZoom = 11.5;
+    // 경대간호학원이 모바일 세로 화면 중앙에 오도록 중심 좌표 보정 (위도를 35.918로 살짝 상향 조정)
+    var initialLat = 35.9180229;
+    var initialLng = 128.6148196;
+    var initialZoom = 11;
 
     // 지도 생성
     var map = L.map('map').setView([initialLat, initialLng], initialZoom);
@@ -195,6 +194,8 @@ HTML
             this.setZIndexOffset(defaultZIndex);
         });
     });
+
+    // 화면 크기 재계산
     setTimeout(function() {
         map.invalidateSize();
     }, 300);
