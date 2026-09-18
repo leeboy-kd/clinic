@@ -26,43 +26,35 @@ HTML
             transition: transform 0.1s ease;
         }
 
-        /* 마우스 올렸을 때 약간 커지는 효과 */
         .company-box:hover {
             transform: scale(1.08);
         }
 
-        /* --------------------------------------------------
-           [개별 배경색 & 글자색 설정]
-        -------------------------------------------------- */
-        /* 1. 흰색 배경 + 검은 글자 (기본용) */
+        /* 개별 배경색 & 글자색 설정 */
         .company-box.style-white {
             background-color: #ffffff;
             color: #212529;
             border: 2px solid #333333;
         }
 
-        /* 2. 파란 배경 + 흰 글자 (강조용) */
         .company-box.style-blue {
             background-color: #007bff;
             color: #ffffff;
             border: 1px solid #0056b3;
         }
 
-        /* 3. 빨간 배경 + 흰 글자 (강조용) */
         .company-box.style-red {
             background-color: #dc3545;
             color: #ffffff;
             border: 1px solid #bd2130;
         }
 
-        /* 4. 노란 배경 + 검은 글자 (강조용) */
         .company-box.style-yellow {
             background-color: #ffc107;
             color: #212529;
             border: 1px solid #e0a800;
         }
 
-        /* 5. 경대간호학원용 (강조용) */
         .company-box.style-kdnurse {
             background-color: #007bff;
             color: #ffffff;
@@ -70,9 +62,7 @@ HTML
             font-size: 15px;
         }
 
-        /* --------------------------------------------------
-           [원위치 커스텀 버튼 스타일]
-        -------------------------------------------------- */
+        /* 원위치 커스텀 버튼 스타일 */
         .reset-btn {
             background-color: #ffffff;
             border: 2px solid rgba(0,0,0,0.2);
@@ -98,10 +88,10 @@ HTML
 <div id="map"></div>
 
 <script>
-    // 초기 중심 좌표 및 줌 레벨 변수 설정
-    var initialLat = 35.8890;
-    var initialLng = 128.6184;
-    var initialZoom = 12;
+    // 경대간호학원 기준 중심 좌표 및 모바일 최적화 줌 레벨(11.5)
+    var initialLat = 35.8980229607434;
+    var initialLng = 128.61481967896094;
+    var initialZoom = 11.5;
 
     // 지도 생성
     var map = L.map('map').setView([initialLat, initialLng], initialZoom);
@@ -111,33 +101,27 @@ HTML
         attribution: '© OpenStreetMap'
     }).addTo(map);
 
-    // --------------------------------------------------
-    // [원위치 버튼 컨트롤 추가]
-    // --------------------------------------------------
+    // 원위치 버튼 컨트롤 추가
     var resetControl = L.control({ position: 'topright' });
 
     resetControl.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'leaflet-bar');
-        div.innerHTML = '<button class="reset-btn" title="초기 위치로 이동">🏠 원위치</button>';
+        var divContainer = L.DomUtil.create('div', 'leaflet-bar');
+        divContainer.innerHTML = '<button class="reset-btn" title="초기 위치로 이동">🏠 원위치</button>';
         
-        // 버튼 클릭 시 지도 이벤트 전파 방지 및 위치 초기화
-        L.DomEvent.disableClickPropagation(div);
-        div.onclick = function () {
+        L.DomEvent.disableClickPropagation(divContainer);
+        divContainer.onclick = function () {
             map.flyTo([initialLat, initialLng], initialZoom, {
-                duration: 1 /* 1초 동안 부드럽게 이동 */
+                duration: 1
             });
         };
-        return div;
+        return divContainer;
     };
 
     resetControl.addTo(map);
 
-    // 총 업체 데이터 (경대간호학원 1곳 + 이름순 정렬된 협약 의원 47곳 = 총 48개)
+    // 총 업체 데이터 (경대간호학원 1곳 + 협약 의원 47곳)
     var stores = [
-        // --- [경대간호학원 메인] ---
         { name: "경대간호학원", lat: 35.8980229607434, lng: 128.61481967896094, url: "http://kdnurse.com", type: "style-kdnurse" },
-
-        // --- [협약 의원 목록 (이름순 정렬, 47개)] ---
         { name: "2080연합피부과의원", lat: 35.8888624995533, lng: 128.59176126979858, url: "http://www.2080skin.co.kr/", type: "style-white" },
         { name: "갑자한의원", lat: 35.8954347, lng: 128.6172183, url: "https://naver.me/F2Z519zk", type: "style-white" },
         { name: "검단한의원", lat: 35.9074492578408, lng: 128.620206161851, url: "https://naver.me/GbDOIOMP", type: "style-white" },
@@ -181,7 +165,7 @@ HTML
         { name: "장의원", lat: 35.9155004367767, lng: 128.628829319899, url: "https://naver.me/5XJtvo5u", type: "style-white" },
         { name: "제생한의원", lat: 35.887269681966, lng: 128.639426496686, url: "https://naver.me/ximqrj3y", type: "style-white" },
         { name: "최상희치과의원", lat: 35.85827526343602, lng: 128.57747153518278, url: "https://naver.me/xwm1uYUL", type: "style-white" },
-        { name: "최종원한의원", lat: 35.87013793864769, lng: 128.59873583249114, url: "https://cjwacnemedi.com/", type: "style-white" },
+        { name: "최종원한의원", lat: 35.87013793864769, lng: 128.59898, url: "https://cjwacnemedi.com/", type: "style-white" },
         { name: "코아이비인후과의원", lat: 35.8988528718993, lng: 128.611334489137, url: "https://blog.naver.com/coaent75", type: "style-white" },
         { name: "푸른맘한의원", lat: 35.8551638536993, lng: 128.504749922611, url: "https://naver.me/xIFVQBkU", type: "style-white" },
         { name: "하나한의원", lat: 35.9109226180033, lng: 128.640481590931, url: "https://naver.me/5A3DXfuV", type: "style-white" }
@@ -196,7 +180,6 @@ HTML
             iconAnchor: [50, 15]
         });
 
-        // 경대간호학원(style-kdnurse)은 무조건 제일 위에 표시 (Offset: 500)
         var defaultZIndex = (store.type === 'style-kdnurse') ? 500 : 0;
 
         var marker = L.marker([store.lat, store.lng], { 
@@ -204,12 +187,10 @@ HTML
             zIndexOffset: defaultZIndex
         }).addTo(map);
 
-        // 마우스를 얹었을 때 최상위(1000)로 설정
         marker.on('mouseover', function () {
             this.setZIndexOffset(1000);
         });
 
-        // 마우스가 떠났을 때 본래 우선순위로 복귀
         marker.on('mouseout', function () {
             this.setZIndexOffset(defaultZIndex);
         });
